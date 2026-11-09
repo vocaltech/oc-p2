@@ -4,7 +4,7 @@ import com.openclassrooms.p2dfsbea.model.Expense;
 import com.openclassrooms.p2dfsbea.repository.ExpenseRepository;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 
 public class ExpenseService {
     private final ExpenseRepository repository;
