@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ConsoleMenu {
     private final Scanner scanner = new Scanner(System.in);
@@ -23,8 +24,9 @@ public class ConsoleMenu {
             String choice = scanner.nextLine().trim();
             switch (choice) {
                 case "1" -> showHistory();
-                case "2" -> addExpense();
-                case "3" -> {
+                case "2" -> showHistoryWithGrandTotal();
+                case "3" -> addExpense();
+                case "4" -> {
                     System.out.println("Goodbye");
                     running = false;
                 }
@@ -33,11 +35,27 @@ public class ConsoleMenu {
         }
     }
 
+    /**
+     * Show expenses history with Grand Total
+     */
+    private void showHistoryWithGrandTotal() {
+        List<Expense> list = service.loadAllExpenses();
+        System.out.println("\nHistory (most recent first):");
+        BigDecimal grandTotal = list.stream()
+                .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
+                .peek(e -> System.out.println(e.toCsvLine()))
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        System.out.println("\n --- Grand Total: " + grandTotal + " ---");
+    }
+
     private void printMenu() {
         System.out.println("\n--- Personal Finance Tracker ---");
         System.out.println("1) Show history");
-        System.out.println("2) Add expense");
-        System.out.println("3) Quit");
+        System.out.println("2) Show history (with Grand Total)");
+        System.out.println("3) Add expense");
+        System.out.println("4) Quit");
         System.out.print("Choose an option: ");
     }
 
