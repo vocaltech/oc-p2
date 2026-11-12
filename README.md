@@ -19,7 +19,7 @@ Starter code Java du projet P2 OpenClassrooms : application console de suivi des
 
 ## Démarrer le projet
 
-Depuis le dossier `p2-dfs-bea-java/` :
+Depuis le dossier `p2-dfs-bea-java` :
 
 ```bash
 mvn clean package
